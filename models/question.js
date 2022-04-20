@@ -2,7 +2,7 @@ const Joi = require('joi');
 const mongoose = require('mongoose');
 
 const querySchema = new mongoose.Schema({
-  answer_text: {
+  question_text: {
     type: String,
     required: true,
     minlength: 3
@@ -11,13 +11,13 @@ const querySchema = new mongoose.Schema({
 
 const Query = mongoose.model('query', querySchema);
 
-function validateUser(user) {
+function validateQuestion(question) {
   const schema = Joi.object({
-    answer_text: Joi.string().min(3).required(),
+    question_text: Joi.string().min(3).required(),
   });
 
-  return schema.validate(user);
+  return schema.validate(question);
 }
 
 exports.Query = Query;
-exports.validate = validateUser;
+exports.validate = validateQuestion;

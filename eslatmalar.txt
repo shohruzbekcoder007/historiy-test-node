@@ -1,1 +1,3 @@
 configni sozlash na jwttokenni tugirlash
+komplarda tafovvud bycrpt va bycrptjs
+token berishni middilware ga utkazish kerak ikkita kod bulib qolyapti

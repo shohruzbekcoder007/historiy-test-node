@@ -1,12 +1,11 @@
 const { User, validate } = require('../models/user');
 const express = require('express');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const router = express.Router();
 const _ = require('lodash');
 const Joi = require('joi');
-const { route } = require('express/lib/application');
-const jwt = require('jsonwebtoken');
-const auth = require('../middleware/auth')
+const auth = require('../middleware/auth');
+const newtoken = require('../middleware/newtoken')
 
 //functions
 const loginValidator = user => {
@@ -36,7 +35,7 @@ router.post('/', async (req, res) => {
     await user.save();
 
     const token = user.generateAuthToken();
-    res.header('x-auth-token', token).send(_.pick(user, ['_id', 'name', 'email', 'isAdmin']));
+    return res.header('x-auth-token', token).send(_.pick(user, ['_id', 'name', 'email', 'isAdmin']));
 });
 
 router.post('/login', async (req, res) => {
@@ -57,10 +56,8 @@ router.post('/login', async (req, res) => {
     res.header('x-auth-token', token).send(_.pick(user, ['email', 'name', 'isAdmin']));
 });
 
-router.get('/shunchaki', auth, (req,res) => {
-
-    
+router.get('/shunchaki', [auth, newtoken], (req,res) => {
     return res.status(201).send('ishaladi');
-})
+});
 
 module.exports = router;

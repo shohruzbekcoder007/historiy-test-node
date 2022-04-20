@@ -1,8 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 
 
@@ -21,11 +19,20 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
 const use_router = require('./routers/user');
-app.use('/v1/user',use_router);
+const question_router = require('./routers/question');
+const answer_router = require('./routers/answer');
+const test_router = require('./routers/test');
+
+app.use('/v1/user', use_router);
+app.use('/v1/question', question_router);
+app.use('/v1/answer', answer_router);
+app.use('/v1/test', test_router);
+
+
 
 app.listen(8080, err => {
     if(err)
-        console.log(err)
+        console.error(err);
     else
         console.log(`8080 portni tinglash boshlandi!!!`);
 })
