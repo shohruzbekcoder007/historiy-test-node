@@ -5,6 +5,7 @@ const _ = require('lodash');
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
 const newtoken = require('../middleware/newtoken');
+const { UserInformation } = require('../models/user_information')
 
 router.post('/', [auth, admin, newtoken], async (req, res) => {
 
@@ -33,7 +34,17 @@ router.post('/reight', [auth, newtoken], async (req, res) => {
     try{
         let fullTest = await FullTest.findOne({"_id": req.body.test_position_id});
         if (fullTest.reight_answer == req.body.reight_answer && fullTest.test_id == req.body.test_id){
-            let test = await FullTest.updateMany({"_id": fullTest._id}, { $set: { reight_answer_number: fullTest.reight_answer_number + 1 } });
+            await FullTest.updateMany({"_id": fullTest._id}, { $set: { reight_answer_number: fullTest.reight_answer_number + 1 }});
+            let information = await UserInformation.find({"user_id": req.user._id});
+            if(information){
+                // update information 
+                // for now level and level__reight_answers aren't finished 
+                await UserInformation.updateMany({"all_reight_answers": information.all_reight_answers + 1})
+            }else{
+                // create information
+                info = new UserInformation({user_id: req.user._id});
+                await info.save();
+            }
             return res.status(201).send(_.pick(fullTest, ['test_id',"reight_answer"]));
         }
         return res.status(400).send("Javobingiz xato");

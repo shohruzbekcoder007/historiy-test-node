@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const testSchema = new mongoose.Schema({
     text_question: { 
         type: mongoose.Schema.Types.ObjectId,
-        ref: "queries",
+        ref: "questions",
         required: true
     },
     test_answer1: { 
