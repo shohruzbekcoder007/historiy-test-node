@@ -23,4 +23,19 @@ router.post('/', [auth, admin, newtoken], async (req, res) => {
 
 });
 
+router.get('/list', [auth, newtoken], async (req, res) => {
+    console.log(req.query.level)
+    try{
+        let tests = await Test.findMany({"level" : req.query.level})
+                                    //  .populate("text_question")
+                                    //  .populate("test_answer1")
+                                    //  .populate("test_answer2")
+                                    //  .populate("test_answer3")
+                                    //  .populate("test_answer4");
+        return res.status(200).send(tests);
+    }catch(err){
+        return res.status(404).send("Savollar ro'yxati topilmadi");
+    }
+});
+
 module.exports = router;

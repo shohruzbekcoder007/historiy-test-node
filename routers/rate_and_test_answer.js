@@ -43,14 +43,4 @@ router.post('/reight', [auth, newtoken], async (req, res) => {
 
 });
 
-router.get('/list', [auth, newtoken], async (req, res) => {
-
-    try{
-        return res.status(200).send(req.query);
-    }catch(err){
-        return res.status(404).send("Savollar ro'yxati topilmadi");
-    }
-
-});
-
 module.exports = router;
