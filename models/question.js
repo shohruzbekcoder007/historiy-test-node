@@ -9,7 +9,7 @@ const querySchema = new mongoose.Schema({
   }
 });
 
-const Query = mongoose.model('query', querySchema);
+const Query = mongoose.model('questions', querySchema);
 
 function validateQuestion(question) {
   const schema = Joi.object({

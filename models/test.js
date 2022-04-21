@@ -26,14 +26,23 @@ const testSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "answers",
         required: true
+    },
+    level: {
+        type: Number,
+        required: true
     }
 });
 
-const Test = mongoose.model('test', testSchema);
+const Test = mongoose.model('tests', testSchema);
 
 function validateTest(question) {
   const schema = Joi.object({
     question_text: Joi.string().required(),
+    test_answer1: Joi.string().required(),
+    test_answer2: Joi.string().required(),
+    test_answer3: Joi.string().required(),
+    test_answer4: Joi.string().required(),
+    level: Joi.number().required(),
   });
 
   return schema.validate(question);

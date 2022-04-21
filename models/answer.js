@@ -9,7 +9,7 @@ const answerSchema = new mongoose.Schema({
   }
 });
 
-const Answer = mongoose.model('answer', answerSchema);
+const Answer = mongoose.model('answers', answerSchema);
 
 function validateAnswer(answer) {
   const schema = Joi.object({

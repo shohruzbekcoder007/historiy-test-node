@@ -22,11 +22,13 @@ const use_router = require('./routers/user');
 const question_router = require('./routers/question');
 const answer_router = require('./routers/answer');
 const test_router = require('./routers/test');
+const fulltest = require('./routers/rate_and_test_answer')
 
 app.use('/v1/user', use_router);
 app.use('/v1/question', question_router);
 app.use('/v1/answer', answer_router);
 app.use('/v1/test', test_router);
+app.use('/v1/fulltest', fulltest);
 
 
 
