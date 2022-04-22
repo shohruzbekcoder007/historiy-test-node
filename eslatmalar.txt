@@ -4,4 +4,4 @@ token berishni middilware ga utkazish kerak ikkita kod bulib qolyapti
 xatoliklar qaytarish joyini optimal hammasi uchun bir xil qilinadi
 requist larni statusini ham tugirlash kerak
 githubtoken=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
-githubtoken ni xato diyapti
+githubtoken=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
