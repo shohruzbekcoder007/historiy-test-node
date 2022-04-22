@@ -57,6 +57,7 @@ router.post('/login', async (req, res) => {
 });
 
 router.get('/shunchaki', [auth, newtoken], (req,res) => {
+    console.log(req.user);
     return res.status(201).send('ishaladi');
 });
 
