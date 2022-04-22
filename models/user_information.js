@@ -8,16 +8,16 @@ const userInformationSchema = new mongoose.Schema({
     unique: true
   },
   level: {
-      type: Number,
-      default: 1
+    type: Number,
+    default: 1
   },
   level__reight_answers: {
     type: Number,
     default: 1,
   },
   all_reight_answers: {
-      type: Number,
-      default: 1,
+    type: Number,
+    default: 1,
   }
 });
 

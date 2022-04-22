@@ -7,7 +7,7 @@ const admin = require('../middleware/admin');
 const newtoken = require('../middleware/newtoken');
 
 router.post('/', [auth, admin, newtoken], async (req, res) => {
-
+    
     const { validateError } = validate(req.body);
 
     if(validateError)

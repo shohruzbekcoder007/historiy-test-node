@@ -1,0 +1,252 @@
+{
+    "definition": {
+      "openapi": "3.0.0",
+      "info": {
+        "title": "Sample API",
+        "description": "",
+        "version": "0.1.0"
+      },
+      "servers": [
+        {
+          "url": "http://localhost:8080/v1",
+          "description": "local server"
+        }
+      ],
+      "paths": {
+        "/user": {
+          "post": {
+            "tags": ["User"],
+            "description": "Create User",
+            "requestBody": {
+              "description": "Passed in parameters for: test",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            },
+            "responses": {
+              
+            }
+          }
+        },
+        "/user/login": {
+          "post": {
+            "tags": ["User"],
+            "description": "Login User",
+            "requestBody": {
+              "description": "Passed in parameters for: test",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "required": ["email","password"],
+                    "properties": {
+                      "email": {
+                        "type": "string",
+                        "example": "shohruzbekochilov007@gamil.com"
+                      },
+                      "password": {
+                        "type": "string",
+                        "example": "shohruz1234!"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "responses": {
+              
+            }
+          }
+        },
+        "/question": {
+          "post": {
+            "tags": ["Question"],
+            "description": "Create Question",
+            "parameters": [
+              {
+                "name": "x-auth-token",
+                "in": "header",
+                "description": "an authorization header",
+                "type": "string"
+              }
+            ],
+            "requestBody": {
+              "description": "Passed in parameters for: test",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Question"
+                  }
+                }
+              }
+            },
+            "responses": {
+              
+            }
+          }
+        },
+        "/answer": {
+          "post": {
+            "tags": ["Answer"],
+            "description": "Create Answer",
+            "parameters": [
+              {
+                "name": "x-auth-token",
+                "in": "header",
+                "description": "an authorization header",
+                "type": "string"
+              }
+            ],
+            "requestBody": {
+              "description": "Passed in parameters for: test",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Answer"
+                  }
+                }
+              }
+            },
+            "responses": {
+              
+            }
+          }
+        },
+        "/test": {
+          "post": {
+            "tags": ["Test"],
+            "description": "Create Test",
+            "parameters": [
+              {
+                "name": "x-auth-token",
+                "in": "header",
+                "description": "an authorization header",
+                "type": "string"
+              }
+            ],
+            "requestBody": {
+              "description": "Passed in parameters for: test",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Test"
+                  }
+                }
+              }
+            },
+            "responses": {
+              
+            }
+          }
+        },
+        "/test/list": {
+          "get": {
+            "tags": ["Test"],
+            "description": "Test List",
+            "parameters": [
+              {
+                "name": "x-auth-token",
+                "in": "header",
+                "description": "an authorization header",
+                "type": "string"
+              },
+              {
+                "name": "level",
+                "in": "query",
+                "description": "question's level",
+                "type": "string"
+              }
+            ],
+            "responses": {
+              
+            }
+          }
+        }
+      },
+      "components": {
+        "schemas": {
+          "User":{
+            "type": "object",
+            "required": ["name","email","password"],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "password": {
+                "type": "string"
+              },
+              "isAdmin": {
+                "type": "boolean"
+              }
+            }
+          },
+          "Question": {
+            "type": "object",
+            "required": ["question_text"],
+            "properties": {
+              "question_text": {
+                "type": "string"
+              }
+            }
+          },
+          "Answer": {
+            "type": "object",
+            "required": ["answer_text"],
+            "properties": {
+              "answer_text": {
+                "type": "string"
+              }
+            }
+          },
+          "Test": {
+            "type": "object",
+            "required": ["text_question","test_answer1","test_answer2","test_answer3","test_answer4"],
+            "properties": {
+              "text_question": {
+                "type": "string"
+              },
+              "test_answer1": {
+                "type": "string"
+              },
+              "test_answer2": {
+                "type": "string"
+              },
+              "test_answer3": {
+                "type": "string"
+              },
+              "test_answer4": {
+                "type": "string"
+              }
+            }
+          },
+          "UserInformation": {
+            "type": "object",
+            "required": ["user_id"],
+            "properties": {
+              "user_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "level": {
+                "type": "string"
+              },
+              "level__reight_answers": {
+                "type": "string"
+              },
+              "all_reight_answers": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "apis": ["./routes/user.js"]
+}

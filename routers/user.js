@@ -5,7 +5,7 @@ const router = express.Router();
 const _ = require('lodash');
 const Joi = require('joi');
 const auth = require('../middleware/auth');
-const newtoken = require('../middleware/newtoken')
+const newtoken = require('../middleware/newtoken');
 
 //functions
 const loginValidator = user => {
@@ -18,24 +18,28 @@ const loginValidator = user => {
 
 //routers
 router.post('/', async (req, res) => {
-    const { validateError } = validate(req.body);
+    try{
+        const { validateError } = validate(req.body);
 
-    if(validateError)
-        return res.status(400).send(error.details[0].message);
+        if(validateError)
+            return res.status(400).send(error.details[0].message);
 
-    let user = await User.findOne({ email: req.body.email });
+        let user = await User.findOne({ email: req.body.email });
 
-    if (user)
-        return res.status(400).send('Mavjud bo\'lgan foydalanuvchi');
+        if (user)
+            return res.status(400).send('Mavjud bo\'lgan foydalanuvchi');
 
-    user = new User(_.pick(req.body, ['name', 'email', 'password', 'isAdmin']));
-    const salt = await bcrypt.genSalt();
-    user.password = await bcrypt.hash(user.password, salt);
-    
-    await user.save();
+        user = new User(_.pick(req.body, ['name', 'email', 'password', 'isAdmin']));
+        const salt = await bcrypt.genSalt();
+        user.password = await bcrypt.hash(user.password, salt);
+        
+        await user.save();
 
-    const token = user.generateAuthToken();
-    return res.header('x-auth-token', token).send(_.pick(user, ['_id', 'name', 'email', 'isAdmin']));
+        const token = user.generateAuthToken();
+        return res.header('x-auth-token', token).send(_.pick(user, ['_id', 'name', 'email', 'isAdmin']));
+    }catch{
+        return res.status(500).send("xatolik yuzaga keldi")
+    }
 });
 
 router.post('/login', async (req, res) => {
