@@ -4,7 +4,7 @@ const router = express.Router();
 const _ = require('lodash');
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
-const newtoken = require('../middleware/newtoken')
+const newtoken = require('../middleware/newtoken');
 
 router.post('/', [auth, admin, newtoken], async (req, res) => {
 
