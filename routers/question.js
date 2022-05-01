@@ -8,9 +8,9 @@ const newtoken = require('../middleware/newtoken');
 
 router.post('/', [auth, admin, newtoken], async (req, res) => {
     
-    const { validateError } = validate(req.body);
+    const { error } = validate(req.body);
 
-    if(validateError)
+    if(error)
         return res.status(400).send(error.details[0].message);
     
     try{

@@ -19,9 +19,9 @@ const loginValidator = user => {
 //routers
 router.post('/', async (req, res) => {
     try{
-        const { validateError } = validate(req.body);
+        const { error } = validate(req.body);
 
-        if(validateError)
+        if(error)
             return res.status(400).send(error.details[0].message);
 
         let user = await User.findOne({ email: req.body.email });
@@ -44,8 +44,8 @@ router.post('/', async (req, res) => {
 
 router.post('/login', async (req, res) => {
 
-    const { validateError } = loginValidator(_.pick(req.body, ['email', 'password']));
-    if(validateError)
+    const { error } = loginValidator(_.pick(req.body, ['email', 'password']));
+    if(error)
         return res.status(400).send(error.details[0].message);
     
     let user = await User.findOne({ email: req.body.email });
@@ -58,11 +58,6 @@ router.post('/login', async (req, res) => {
 
     const token = user.generateAuthToken();
     res.header('x-auth-token', token).send(_.pick(user, ['email', 'name', 'isAdmin']));
-});
-
-router.get('/shunchaki', [auth, newtoken], (req,res) => {
-    console.log(req.user);
-    return res.status(201).send('ishaladi');
 });
 
 module.exports = router;
