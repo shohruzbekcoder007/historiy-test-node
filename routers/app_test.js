@@ -1,4 +1,4 @@
-const { Test, validate } = require('../models/test');
+const { Test, validate } = require('../models/app_test');
 const express = require('express');
 const router = express.Router();
 const _ = require('lodash');
@@ -16,9 +16,9 @@ router.post('/', [auth, admin, newtoken], async (req, res) => {
     try{
         let test = new Test(_.pick(req.body, ['text_question',"test_answer1","test_answer2","test_answer3","test_answer4","try_test_id"]));
         let newtest = await test.save();
-        res.status(201).send(_.pick(newtest, ['_id', 'text_question',"test_answer1","test_answer2","test_answer3","test_answer4",,"try_test_id"]));
+        return res.status(201).send(_.pick(newtest, ['_id', 'text_question',"test_answer1","test_answer2","test_answer3","test_answer4",,"try_test_id"]));
     }catch(err){
-        res.status(404).send("Ushbu testni saqlashning imkoni bo'lmadi");
+        return res.status(404).send("Ushbu testni saqlashning imkoni bo'lmadi");
     }
 
 });

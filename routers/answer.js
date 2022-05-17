@@ -16,9 +16,9 @@ router.post('/', [auth, admin, newtoken], async (req, res) => {
     try{
         let answer = new Answer(_.pick(req.body, ['answer_text']));
         let newanswer = await answer.save();
-        res.status(201).send(_.pick(newanswer, ['_id', 'answer_text']));
+        return res.status(201).send(_.pick(newanswer, ['_id', 'answer_text']));
     }catch(err){
-        res.status(404).send("Ushbu javobni saqlashning imkoni bo'lmadi");
+        return res.status(404).send("Ushbu javobni saqlashning imkoni bo'lmadi");
     }
 
 });

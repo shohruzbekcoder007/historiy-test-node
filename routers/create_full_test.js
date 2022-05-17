@@ -11,7 +11,7 @@ const {
 } = require('../models/create_full_test');
 const { Query } = require('../models/question');
 const { Answer } = require('../models/answer');
-const { Test, validate } = require('../models/test');
+const { Test, validate } = require('../models/app_test');
 
 router.post('/', [auth, admin, newtoken], async (req, res) => {
 
@@ -90,12 +90,10 @@ router.post('/', [auth, admin, newtoken], async (req, res) => {
             try_test_id: req.body.try_test_id
         });
         let newtest = await test.save();
-        res.status(201).send(_.pick(newtest, ['_id', 'text_question',"test_answer1","test_answer2","test_answer3","test_answer4",,"try_test_id"]));
+        return res.status(201).send(_.pick(newtest, ['_id', 'text_question',"test_answer1","test_answer2","test_answer3","test_answer4",,"try_test_id"]));
     }catch(err){
-        res.status(404).send("Ushbu testni saqlashning imkoni bo'lmadi");
+        return res.status(404).send("Ushbu testni saqlashning imkoni bo'lmadi");
     }
-
-    res.status(200).send("Hammasi to'g'ri kiritildi")
 
 });
 

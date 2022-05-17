@@ -9,16 +9,17 @@ const newtoken = require('../middleware/newtoken');
 router.post('/', [auth, admin, newtoken], async (req, res) => {
     
     const { error } = validate(req.body);
-
+    // throw new Error("biz hosil qilgan error!!!");
+    
     if(error)
         return res.status(400).send(error.details[0].message);
     
     try{
         let query = new Query(_.pick(req.body, ['question_text']));
         let newquestion = await query.save();
-        res.status(201).send(_.pick(newquestion, ['_id', 'question_text']));
+        return res.status(201).send(_.pick(newquestion, ['_id', 'question_text']));
     }catch(err){
-        res.status(404).send("Savolingizning matnini saqlashni imkoni bo'lmadi");
+        return res.status(404).send("Savolingizning matnini saqlashni imkoni bo'lmadi");
     }
 
 });

@@ -4,7 +4,7 @@ const _ = require('lodash');
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
 const newtoken = require('../middleware/newtoken');
-const { CorrectAnswer, validate } = require('../models/correct_answer');
+const { CorrectAnswer, validate, validateArray } = require('../models/correct_answer');
 
 router.post('/', [auth, admin, newtoken], async (req, res) => {
 
@@ -23,6 +23,27 @@ router.post('/', [auth, admin, newtoken], async (req, res) => {
 router.post('/correct', [auth, newtoken], async (req, res) => {
 
     const { error } = validate(req.body);
+
+    if(error)
+        return res.status(400).send(error.details[0].message);
+        
+    let answer = await CorrectAnswer.findOne({test_id: req.body.test_id});
+    
+    if(answer){
+        if(answer.answer_id == req.body.answer_id){
+            return res.status(200).send("Javobingiz to'g'ri");
+        }else{
+            return res.status(400).send("Javobingiz noto'g'ri");
+        }
+    }else{
+        return res.status(400).send("Javobingizni tekshirib bo'lmadi");
+    }
+    
+});
+
+router.post('/listcorrect', [auth, newtoken], async (req, res) => {
+
+    const { error } = validateArray(req.body);
 
     if(error)
         return res.status(400).send(error.details[0].message);

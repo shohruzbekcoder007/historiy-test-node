@@ -1,9 +1,10 @@
 const jwt = require('jsonwebtoken');
 const _ = require('lodash');
+const config = require('config')
 
 module.exports = function newtoken(req,res,next) {
   try{
-    const token = jwt.sign(_.pick(req.user, ['_id', 'isAdmin']), 'jwtPrivateKey', 
+    const token = jwt.sign(_.pick(req.user, ['_id', 'isAdmin']), config.get('jwtPrivateKey'), 
     // {expiresIn: '300s'}
     );
     res.header('x-auth-token', token);

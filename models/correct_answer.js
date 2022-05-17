@@ -23,5 +23,18 @@ function validateCorrectAnswer(answer) {
   return schema.validate(answer);
 }
 
+function validateCorrectAnswerArray(answers) {
+
+  const schema = Joi.array().items(
+    Joi.object({
+      test_id: Joi.string().required(),
+      answer_id: Joi.string().required(),
+    }));
+
+  return schema.validate(answers);
+  
+}
+
 exports.CorrectAnswer = CorrectAnswer;
 exports.validate = validateCorrectAnswer;
+exports.validateArray = validateCorrectAnswerArray;

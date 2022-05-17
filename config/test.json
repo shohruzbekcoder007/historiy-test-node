@@ -1,0 +1,4 @@
+{
+    "jwtPrivateKey": "qiy1npar0l",
+    "db": "mongodb://localhost/test_history__test"
+}

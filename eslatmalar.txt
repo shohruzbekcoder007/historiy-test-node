@@ -1,5 +1,6 @@
 configni sozlash na jwttokenni tugirlash
-komplarda tafovvud bycrpt va bycrptjs
 xatoliklar qaytarish joyini optimal hammasi uchun bir xil qilinadi
 requist larni statusini ham tugirlash kerak
-hatolar boshqaruvini yulga quyish kerak
+index js ni modellarga bo'lib chiqish kerak
+
+arrayda kelgan javoblarni tugrilikka tekshiradigan joyiga kelib tuxtaganmiz
