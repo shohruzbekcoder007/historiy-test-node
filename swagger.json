@@ -62,6 +62,107 @@
           }
         }
       },
+      "/user/info": {
+        "get": {
+          "tags": ["User"],
+          "description": "User Information",
+          "parameters": [
+            {
+              "name": "x-auth-token",
+              "in": "header",
+              "description": "an authorization header",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            
+          }
+        }
+      },
+      "/user/update": {
+        "put": {
+          "tags": ["User"],
+          "description": "Update User",
+          "parameters": [
+            {
+              "name": "x-auth-token",
+              "in": "header",
+              "description": "an authorization header",
+              "type": "string"
+            }
+          ],
+          "requestBody": {
+            "description": "Passed in parameters for: test",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["email","password"],
+                  "properties": {
+                    "email": {
+                      "type": "string",
+                      "example": "shohruzbekcoder007@gamil.com"
+                    },
+                    "password": {
+                      "type": "string",
+                      "example": "shohruz1234!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            
+          }
+        }
+      },
+      "/user/remove": {
+        "delete": {
+          "tags": ["User"],
+          "description": "User Remove",
+          "parameters": [
+            {
+              "name": "x-auth-token",
+              "in": "header",
+              "description": "an authorization header",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            
+          }
+        }
+      },
+      "/user/teachers": {
+        "get": {
+          "tags": ["Teachers and Students"],
+          "description": "Test List",
+          "parameters": [
+            {
+              "name": "x-auth-token",
+              "in": "header",
+              "description": "an authorization header",
+              "type": "string"
+            },
+            {
+              "name": "page",
+              "in": "query",
+              "description": "question's category",
+              "type": "number"
+            },
+            {
+              "name": "limit",
+              "in": "query",
+              "description": "question's category",
+              "type": "number"
+            }
+          ],
+          "responses": {
+            
+          }
+        }
+      },
       "/question": {
         "post": {
           "tags": ["Question"],

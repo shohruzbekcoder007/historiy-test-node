@@ -7,7 +7,6 @@ const Joi = require('joi');
 const auth = require('../middleware/auth');
 const newtoken = require('../middleware/newtoken');
 
-//functions
 const loginValidator = user => {
     const schema = Joi.object({
         email: Joi.string().min(5).max(255).required().email(),
@@ -16,7 +15,6 @@ const loginValidator = user => {
     return schema.validate(user);
 }
 
-//routers
 router.post('/', async (req, res) => {
     try{
         const { error } = validate(req.body);
@@ -57,7 +55,66 @@ router.post('/login', async (req, res) => {
         return res.status(400).send('Email yoki parol noto\'g\'ri');
 
     const token = user.generateAuthToken();
-    res.header('x-auth-token', token).send(_.pick(user, ['email', 'name', 'isAdmin']));
+    return res.header('x-auth-token', token).send(_.pick(user, ['email', 'name', 'isAdmin']));
+});
+
+router.get('/info', auth, async (req, res) => {
+
+    const { _id } = _.pick(req.user, ['_id', 'isAdmin'])
+    
+    let user = await User.findById(_id);
+    if (!user)
+        return res.status(400).send('Email yoki parol noto\'g\'ri');
+
+    const token = user.generateAuthToken();
+    return res.header('x-auth-token', token).send(_.pick(user, ['email', 'name', 'isAdmin']));
+});
+
+router.put('/update', auth, async (req, res) => {
+
+    const { _id } = _.pick(req.user, ['_id', 'isAdmin'])
+
+    const { error } = loginValidator(_.pick(req.body, ['email', 'password']));
+    if(error)
+        return res.status(400).send(error.details[0].message);
+    
+    let user = await User.findByIdAndUpdate(_id, _.pick(req.body, ['email', 'password']));
+    if (!user)
+        return res.status(400).send('User\'s information is not update');
+
+    const token = user.generateAuthToken();
+    return res.header('x-auth-token', token).send(_.pick(user, ['email', 'name', 'isAdmin']));
+});
+
+router.delete('/remove', auth, async (req, res) => {
+
+    const { _id } = _.pick(req.user, ['_id', 'isAdmin'])
+    
+    let user = await User.findByIdAndRemove(_id);
+    if (!user)
+        return res.status(400).send('User\'s information is not remove');
+
+    return res.send(_.pick(user, ['email', 'name', 'isAdmin']));
+});
+
+router.get('/teachers', auth, async (req, res) => {
+
+    const { page = 1, limit = 10 } = req.query;
+
+    let user = await User.find({"isAdmin": true})
+      .limit(limit * 1)
+      .skip((page - 1) * limit)
+      .exec();
+
+    const count = await User.count({"isAdmin": true});
+
+    const token = user[0].generateAuthToken();
+    return res.header('x-auth-token', token).json({
+        teachers: user,
+        totalPages: Math.ceil(count / limit),
+        currentPage: page
+      });
+
 });
 
 module.exports = router;

@@ -1,10 +1,10 @@
-const express = require('express');
-const router = express.Router();
-const _ = require('lodash');
-const auth = require('../middleware/auth');
-const admin = require('../middleware/admin');
-const newtoken = require('../middleware/newtoken');
-const { Category, validate } = require('../models/category');
+const express = require('express')
+const router = express.Router()
+const _ = require('lodash')
+const auth = require('../middleware/auth')
+const admin = require('../middleware/admin')
+const newtoken = require('../middleware/newtoken')
+const { Category, validate } = require('../models/category')
 
 router.post('/', [auth, admin, newtoken], async (req, res) => {
     
