@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 
 require('./startup/logging')()
-require('./startup/process_error')()
+// require('./startup/process_error')()
 require('./startup/db')()
 require('./startup/router')(app)
 

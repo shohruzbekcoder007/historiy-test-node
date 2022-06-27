@@ -1,3 +1,5 @@
+const winston = require('winston');
+
 module.exports = () => {
     process.on('uncaughtException', ex => {
         winston.error(ex.message, ex);
