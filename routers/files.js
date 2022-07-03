@@ -26,7 +26,7 @@ conn.once('open', () => {
     console.log("connection made successfully");
 })
 
-router.post('/uploadimg', [auth, admin, upload_file.single('file'), newtoken], async (req, res) => {
+router.post('/uploadfile', [auth, admin, upload_file.single('file'), newtoken], async (req, res) => {
 
     if(req.file === undefined) return res.send("file tanlang")
     
