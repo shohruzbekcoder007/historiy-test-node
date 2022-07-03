@@ -12,6 +12,35 @@ router.post('/reqforteacher', [auth, newtoken], async (req, res) => {
         req.body.student_id = req.user._id
     }
 
+    if(req.body.status){
+        req.body.status = false
+    }
+
+    const { error } = validate(req.body);
+    
+    if(error)
+        return res.status(400).send(error.details[0].message);
+    
+    try{
+        let member = new Member(_.pick(req.body, ['student_id', 'group_id']));
+        let newmember = await member.save();
+        return res.status(201).send(_.pick(newmember, ['group_id']));
+    }catch(err){
+        return res.status(404).send("So'rovingizni jo'natishing imkoni bo'lmadi!");
+    }
+
+});
+
+router.post('/restostudent', [auth, admin, newtoken], async (req, res) => {
+    
+    if(!req.body.student_id){
+        req.body.student_id = req.user._id
+    }
+
+    if(!req.body.status){
+        req.body.status = true
+    }
+
     const { error } = validate(req.body);
     
     if(error)
