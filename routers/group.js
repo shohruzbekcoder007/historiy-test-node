@@ -12,6 +12,8 @@ router.post('/', [auth, admin, newtoken], async (req, res) => {
         req.body.teacher_id = req.user._id
     }
 
+    delete req.body.status;
+
     const { error } = validate(req.body);
     
     if(error)
@@ -20,9 +22,9 @@ router.post('/', [auth, admin, newtoken], async (req, res) => {
     try{
         let group = new Group(_.pick(req.body, ['teacher_id', 'group_name']));
         let newgroup = await group.save();
-        return res.status(201).send(_.pick(newgroup, ['group_name']));
+        return res.status(201).send(_.pick(newgroup, ['group_name', "_id"]));
     }catch(err){
-        return res.status(404).send("Savolingizning matnini saqlashni imkoni bo'lmadi");
+        return res.status(404).send("Quyidagi gurihni tashkil qilishni imkoni bo'lmadi!");
     }
 
 });

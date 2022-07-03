@@ -530,6 +530,33 @@
             
           }
         }
+      },
+      "/group_member/reqforteacher": {
+        "post": {
+          "tags": ["Group"],
+          "description": "Fequest from students to teacher",
+          "parameters": [
+            {
+              "name": "x-auth-token",
+              "in": "header",
+              "description": "an authorization header",
+              "type": "string"
+            }
+          ],
+          "requestBody": {
+            "description": "Passed in parameters for: test",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupMember"
+                }
+              }
+            }
+          },
+          "responses": {
+            
+          }
+        }
       }
     },
     "components": {
@@ -631,10 +658,16 @@
           "type": "object",
           "required": ["group_name"],
           "properties": {
-            "teacher_id": {
-              "type": "string"
-            },
             "group_name": {
+              "type": "string"
+            }
+          }
+        },
+        "GroupMember": {
+          "type": "object",
+          "required": ["group_id"],
+          "properties": {
+            "group_id": {
               "type": "string"
             }
           }
