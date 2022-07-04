@@ -57,7 +57,7 @@ router.post('/login', async (req, res) => {
 
     const token = user.generateAuthToken();
     console.log(token)
-    return res.header('x-auth-token', token).send(_.pick(user, ['email', 'name', 'isAdmin']));
+    return res.header('x-auth-token', token).send(_.pick(user, ['_id', 'email', 'name', 'isAdmin']));
 });
 
 router.get('/info', auth, async (req, res) => {
@@ -79,7 +79,7 @@ router.get('/info', auth, async (req, res) => {
     user.profile = profile;
 
     const token = user.generateAuthToken();
-    return res.header('x-auth-token', token).send(_.pick(user, ['email', 'name', 'isAdmin', "image_url", "profile"]));
+    return res.header('x-auth-token', token).send(_.pick(user, ['_id', 'email', 'name', 'isAdmin', "image_url", "profile"]));
 });
 
 router.put('/update', auth, async (req, res) => {
@@ -95,7 +95,7 @@ router.put('/update', auth, async (req, res) => {
         return res.status(400).send('User\'s information is not update');
 
     const token = user.generateAuthToken();
-    return res.header('x-auth-token', token).send(_.pick(user, ['email', 'name', 'isAdmin']));
+    return res.header('x-auth-token', token).send(_.pick(user, ['_id', 'email', 'name', 'isAdmin']));
 });
 
 router.delete('/remove', auth, async (req, res) => {
@@ -106,7 +106,7 @@ router.delete('/remove', auth, async (req, res) => {
     if (!user)
         return res.status(400).send('User\'s information is not remove');
 
-    return res.send(_.pick(user, ['email', 'name', 'isAdmin']));
+    return res.send(_.pick(user, ['_id', 'email', 'name', 'isAdmin']));
 });
 
 router.get('/teachers', auth, async (req, res) => {

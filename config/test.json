@@ -1,5 +1,5 @@
 {
     "jwtPrivateKey": "qiy1npar0l",
     "db": "mongodb://localhost/test_history__test",
-    "front":"http://localhost:3000"
+    "front":"http://localhost:3001"
 }
