@@ -6,13 +6,14 @@ module.exports = (io) => {
         console.log("connect teacher or student to socket.io")
 
         socket.on("add-user", (userId) => {
+            console.log("--------------")
             console.log(userId)
             onlineUsers.set(userId, socket.id);
         });
 
         socket.on('disconnect',  () => {
             socket.emit('disconnected');
-            global.delete(userId)
+            // global.delete(userId)
         });
 
     });

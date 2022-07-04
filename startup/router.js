@@ -18,10 +18,14 @@ const errorMiddleware = require('../middleware/error')
 const options = require("../swagger.json")
 const specs = swaggerJsdoc(options)
 
+const corsOptions = {
+    exposedHeaders: "x-auth-token",
+  };
+
 module.exports = (app) => {
     app.use(express.json());
     app.use(bodyParser.urlencoded({ extended: true }));
-    app.use(cors());
+    app.use(cors(corsOptions));
     app.use('/v1/user', use_router);
     app.use('/v1/question', question_router);
     app.use('/v1/answer', answer_router);
