@@ -11,6 +11,15 @@ const GroupSchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: 3
+  },
+  group_text: {
+    type: String,
+    required: true,
+    minlength: 300
+  },
+  create_date: {
+    type: Date,
+    default: new Date()
   }
 });
 
@@ -20,6 +29,8 @@ function validateGroup(answer) {
   const schema = Joi.object({
     teacher_id: Joi.string().required(),
     group_name: Joi.string().min(3).required(),
+    group_text: Joi.string().min(300).required(),
+    create_date: Joi.date()
   });
 
   return schema.validate(answer);

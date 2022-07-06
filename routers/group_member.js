@@ -31,6 +31,23 @@ router.post('/reqforteacher', [auth, newtoken], async (req, res) => {
 
 });
 
+router.get('/member', [auth, newtoken], async (req, res) => {
+    let student_id = req.user._id
+    let status = req.params.status || true
+    try{
+        let group = await Member.find({student_id: student_id, status: status});
+        return res.send(group);
+    }catch(err){
+        return res.status(404).send("Xatolik yuzaga keldi!!!");
+    }
+
+})
+
+// router.get('/reqfromstudent', [auth, admin, newtoken], async (req, res) => {
+//     const teacher_id = req.user._id
+//     let new_students = await Member.find()group_id, group_id, status
+// })
+
 router.post('/restostudent', [auth, admin, newtoken], async (req, res) => {
     
     if(!req.body.student_id){

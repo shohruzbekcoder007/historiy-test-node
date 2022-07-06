@@ -656,9 +656,12 @@
         },
         "Group": {
           "type": "object",
-          "required": ["group_name"],
+          "required": ["group_name", "group_text"],
           "properties": {
             "group_name": {
+              "type": "string"
+            },
+            "group_text": {
               "type": "string"
             }
           }

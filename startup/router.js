@@ -36,7 +36,7 @@ module.exports = (app) => {
     app.use('/v1/fulltest', full_test);
     app.use('/v1/file', files);
     app.use('/v1/group', group);
-    app.use('/v1/group_member', group_member);
+    app.use('/v1/groupmember', group_member);
     app.use(errorMiddleware);
     app.use(
         "/api-docs",
