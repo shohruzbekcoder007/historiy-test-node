@@ -10,10 +10,12 @@ module.exports = (io) => {
             if(userId && !obj)
                 onlineUsers.push({userId: userId, sockedId: socket.id, status: status})
 
-            console.log(onlineUsers)
-            onlineUsers.forEach(user => {
-                if(user.status)
-                    socket.to(user?.sockedId).emit("new-msg", "send message");
+            // onlineUsers.forEach(user => {
+            //     if(user.status)
+            //         socket.to(user?.sockedId).emit("new-msg", "send message");
+            // })
+            socket.on("send-request", (group) => {
+                console.log(group)
             })
         });
 

@@ -5,6 +5,7 @@ const _ = require('lodash');
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
 const newtoken = require('../middleware/newtoken');
+const { Group } = require('../models/group');
 
 router.post('/reqforteacher', [auth, newtoken], async (req, res) => {
     
@@ -22,9 +23,19 @@ router.post('/reqforteacher', [auth, newtoken], async (req, res) => {
         return res.status(400).send(error.details[0].message);
     
     try{
-        let member = new Member(_.pick(req.body, ['student_id', 'group_id']));
-        let newmember = await member.save();
-        return res.status(201).send(_.pick(newmember, ['group_id']));
+        let isMember = await Member.find({group_id: req.body.group_id})
+        if(isMember.length===0){
+            let member = new Member(_.pick(req.body, ['student_id', 'group_id']));
+            let newmember = await member.save();
+            let group = await Group.find({_id: req.body.group_id})
+            console.log(group)
+            newmember.group_id = _.pick(group, ['teacher_id', 'group_name'])
+            return res.status(200).send({add: true, group : newmember});
+        } else {
+            return res.send({add: false, message: "Bu guruhga allaqachon azo bo'lgansiz"})
+        }
+        
+        
     }catch(err){
         return res.status(404).send("So'rovingizni jo'natishing imkoni bo'lmadi!");
     }
@@ -33,9 +44,9 @@ router.post('/reqforteacher', [auth, newtoken], async (req, res) => {
 
 router.get('/member', [auth, newtoken], async (req, res) => {
     let student_id = req.user._id
-    let status = req.params.status || true
+    let status = req.query.status || false
     try{
-        let group = await Member.find({student_id: student_id, status: status});
+        let group = await Member.find({"student_id": student_id, status: ""+status+""}).populate("group_id");
         return res.send(group);
     }catch(err){
         return res.status(404).send("Xatolik yuzaga keldi!!!");
