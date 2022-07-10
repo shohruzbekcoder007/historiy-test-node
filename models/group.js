@@ -25,7 +25,7 @@ const GroupSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
-  basic_maretials: {
+  number_of_maretials: {
     type: Number,
     default: 0
   }

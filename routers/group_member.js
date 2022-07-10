@@ -1,11 +1,11 @@
-const { Member, validate } = require('../models/group_member');
-const express = require('express');
-const router = express.Router();
-const _ = require('lodash');
-const auth = require('../middleware/auth');
-const admin = require('../middleware/admin');
-const newtoken = require('../middleware/newtoken');
-const { Group } = require('../models/group');
+const { Member, validate } = require('../models/group_member')
+const express = require('express')
+const router = express.Router()
+const _ = require('lodash')
+const auth = require('../middleware/auth')
+const admin = require('../middleware/admin')
+const newtoken = require('../middleware/newtoken')
+const { Group } = require('../models/group')
 
 router.post('/reqforteacher', [auth, newtoken], async (req, res) => {
     
@@ -28,7 +28,6 @@ router.post('/reqforteacher', [auth, newtoken], async (req, res) => {
             let member = new Member(_.pick(req.body, ['student_id', 'group_id']));
             let newmember = await member.save();
             let group = await Group.find({_id: req.body.group_id})
-            console.log(group)
             newmember.group_id = _.pick(group, ['teacher_id', 'group_name'])
             return res.status(200).send({add: true, group : newmember});
         } else {
@@ -61,9 +60,22 @@ router.get('/requeststoteacher', [auth, admin, newtoken], async (req, res) => {
 router.post('/resforstudent', [auth, admin, newtoken], async (req, res) => {
     
     if(req.body.req_id){
+
         let _id = req.body.req_id
-        const member_req = await Member.findByIdAndUpdate(_id, {status: true})
-        res.send(member_req)
+        const { teacher_id, status } = await Member.findOne({_id: _id})
+
+        if(teacher_id === req.user._id && status === false){
+
+            const member_req = await Member.findByIdAndUpdate(_id, {status: true})
+            const group = await Group.findOne({_id: member_req.group_id})
+            const update_group = await Group.findByIdAndUpdate(group._id, {number_of_students: group.number_of_students + 1})
+
+            res.send(update_group)
+
+        }else{
+            res.status(404).send("Guruh sizga tegishli emas yoki allaqachon azolikni qabul qilgansiz")
+        }
+
     } else {
         res.status(404).send("So'rovning _id si ko'rsatilmagan")
     }

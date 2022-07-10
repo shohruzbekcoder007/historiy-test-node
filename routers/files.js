@@ -1,5 +1,6 @@
 const upload = require('../middleware/image_upload')
 const upload_file = require('../middleware/file_upload')
+const upload_video = require('../middleware/video_upload')
 const express = require('express')
 const router = express.Router()
 const auth = require('../middleware/auth')
@@ -27,6 +28,16 @@ conn.once('open', () => {
 })
 
 router.post('/uploadfile', [auth, admin, upload_file.single('file'), newtoken], async (req, res) => {
+
+    if(req.file === undefined) return res.send("file tanlang")
+    
+    const imageUrl = `http://localhost:8080/v1/file/${req.file.filename}`
+
+    return res.send(imageUrl)
+    
+});
+
+router.post('/uploadvideo', [auth, admin, upload_video.single('file'), newtoken], async (req, res) => {
 
     if(req.file === undefined) return res.send("file tanlang")
     
