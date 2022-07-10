@@ -56,7 +56,6 @@ router.post('/login', async (req, res) => {
         return res.status(400).send('Email yoki parol noto\'g\'ri');
 
     const token = user.generateAuthToken();
-    console.log(token)
     return res.header('x-auth-token', token).send(_.pick(user, ['_id', 'email', 'name', 'isAdmin']));
 });
 

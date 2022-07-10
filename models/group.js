@@ -1,5 +1,5 @@
-const Joi = require('joi');
-const mongoose = require('mongoose');
+const Joi = require('joi')
+const mongoose = require('mongoose')
 
 const GroupSchema = new mongoose.Schema({
   teacher_id: {
@@ -20,6 +20,14 @@ const GroupSchema = new mongoose.Schema({
   create_date: {
     type: Date,
     default: new Date()
+  },
+  number_of_students: {
+    type: Number,
+    default: 0
+  },
+  basic_maretials: {
+    type: Number,
+    default: 0
   }
 });
 

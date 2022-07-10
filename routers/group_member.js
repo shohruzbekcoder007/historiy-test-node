@@ -22,7 +22,7 @@ router.post('/reqforteacher', [auth, newtoken], async (req, res) => {
         return res.status(400).send(error.details[0].message);
     
     try{
-        let member = new Member(_.pick(req.body, ['student_id', 'group_id']));
+        let member = new Member(_.pick(req.body, ['student_id', 'group_id', 'teacher_id']));
         let newmember = await member.save();
         return res.status(201).send(_.pick(newmember, ['group_id']));
     }catch(err){
@@ -35,44 +35,30 @@ router.get('/member', [auth, newtoken], async (req, res) => {
     let student_id = req.user._id
     let status = req.params.status || true
     try{
-        let group = await Member.find({student_id: student_id, status: status});
-        return res.send(group);
+        let member = await Member.find({student_id: student_id, status: status});
+        return res.send(member);
     }catch(err){
         return res.status(404).send("Xatolik yuzaga keldi!!!");
     }
 
 })
 
-// router.get('/reqfromstudent', [auth, admin, newtoken], async (req, res) => {
-//     const teacher_id = req.user._id
-//     let new_students = await Member.find()group_id, group_id, status
-// })
+router.get('/requeststoteacher', [auth, admin, newtoken], async (req, res) => {
+    let teacher_id = req.user._id
+    let req_to_teacher = await Member.find({teacher_id: teacher_id, status: false})
+    res.send(req_to_teacher)
+})
 
-router.post('/restostudent', [auth, admin, newtoken], async (req, res) => {
+router.post('/resforstudent', [auth, admin, newtoken], async (req, res) => {
     
-    if(!req.body.student_id){
-        req.body.student_id = req.user._id
+    if(req.body.req_id){
+        let _id = req.body.req_id
+        const member_req = await Member.findByIdAndUpdate(_id, {status: true})
+        res.send(member_req)
+    } else {
+        res.status(404).send("So'rovning _id si ko'rsatilmagan")
     }
+})
 
-    if(!req.body.status){
-        req.body.status = true
-    }
-
-    const { error } = validate(req.body);
-    
-    if(error)
-        return res.status(400).send(error.details[0].message);
-    
-    try{
-        let member = new Member(_.pick(req.body, ['student_id', 'group_id']));
-        let newmember = await member.save();
-        return res.status(201).send(_.pick(newmember, ['group_id']));
-    }catch(err){
-        return res.status(404).send("So'rovingizni jo'natishing imkoni bo'lmadi!");
-    }
-
-});
 
 module.exports = router;
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmMxN2ZjMzEyOTljNTlkY2Q4M2QxN2YiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNjU2ODQ4MzIzLCJleHAiOjE2NTY4NDg2MjN9.RehcvEBWPt_iKpIi5Q0IICMw8BCvp67FW55mDv6X9x4
-// 62c17f861299c59dcd83d17c

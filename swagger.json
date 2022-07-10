@@ -548,7 +548,16 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GroupMember"
+                  "type": "object",
+                    "required": ["group_id"],
+                    "properties": {
+                      "group_id": {
+                        "type": "string"
+                      },
+                      "teacher_id": {
+                        "type": "string"
+                      }
+                    }
                 }
               }
             }

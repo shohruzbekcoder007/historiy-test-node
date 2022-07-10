@@ -7,6 +7,11 @@ const MemberSchema = new mongoose.Schema({
     ref: "users",
     required: true,
   },
+  teacher_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "users",
+    required: true,
+  },
   group_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "groups",
@@ -22,7 +27,8 @@ const Member = mongoose.model('members', MemberSchema);
 
 function validateMember(answer) {
   const schema = Joi.object({
-    student_id: Joi.string(),
+    student_id: Joi.string().required(),
+    teacher_id: Joi.string().required(),
     group_id: Joi.string().required(),
     status: Joi.boolean()
   });
