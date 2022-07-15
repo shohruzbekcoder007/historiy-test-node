@@ -10,12 +10,17 @@ module.exports = (io) => {
             if(userId && !obj)
                 onlineUsers.push({userId: userId, sockedId: socket.id, status: status})
 
-            // onlineUsers.forEach(user => {
-            //     if(user.status)
-            //         socket.to(user?.sockedId).emit("new-msg", "send message");
-            // })
             socket.on("send-request", (group) => {
-                console.log(group)
+                onlineUsers.forEach(user =>{
+                    console.log(user)
+                    if(group.teacher_id == user.userId){
+                        onlineUsers.forEach(elem => {
+                            if(elem.userId == group.teacher_id)
+                                socket.to(elem.sockedId).emit('response-from-teacher',group)
+                        })
+                    }
+                })
+                console.log(group.teacher_id,"<---")
             })
         });
 

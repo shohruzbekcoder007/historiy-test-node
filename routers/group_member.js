@@ -24,8 +24,9 @@ router.post('/reqforteacher', [auth, newtoken], async (req, res) => {
     
     try{
         let isMember = await Member.find({group_id: req.body.group_id})
+        console.log(isMember)
         if(isMember.length===0){
-            let member = new Member(_.pick(req.body, ['student_id', 'group_id']));
+            let member = new Member(_.pick(req.body, ['student_id', 'group_id', 'teacher_id']));
             let newmember = await member.save();
             let group = await Group.find({_id: req.body.group_id})
             newmember.group_id = _.pick(group, ['teacher_id', 'group_name'])
@@ -37,14 +38,34 @@ router.post('/reqforteacher', [auth, newtoken], async (req, res) => {
         return res.status(404).send("So'rovingizni jo'natishing imkoni bo'lmadi!");
     }
 
-});
+})
 
 router.get('/member', [auth, newtoken], async (req, res) => {
     let student_id = req.user._id
     let status = req.query.status || false
     try{
-        let member = await Member.find({student_id: student_id, status: status});
+        let member = await Member.find({student_id: student_id, status: status}).populate('group_id');
         return res.send(member)
+    }catch(err){
+        return res.status(404).send("Xatolik yuzaga keldi!!!");
+    }
+
+})
+
+router.delete('/remove', [auth, newtoken], async (req, res) => {
+
+    const _id = req.body._id
+
+    try{
+        if(_id){
+            let member = await Member.findByIdAndRemove(_id)
+            if (!member)
+                return res.status(400).send('User\'s information is not remove')
+
+            return res.send(member)
+        } else {
+            return res.status(404).send("Guhurni ko'rsatishingiz shart!!!");
+        }
     }catch(err){
         return res.status(404).send("Xatolik yuzaga keldi!!!");
     }
@@ -79,6 +100,12 @@ router.post('/resforstudent', [auth, admin, newtoken], async (req, res) => {
     } else {
         res.status(404).send("So'rovning _id si ko'rsatilmagan")
     }
+})
+
+router.get('/readrequest', [auth, newtoken], async (req, res) => {
+    let group = await Member.findOne(_.pick(req.body, ['group_id'])).populate('student_id').populate('group_id')
+    group.student_id.password = ""
+    res.send(group)
 })
 
 module.exports = router;
