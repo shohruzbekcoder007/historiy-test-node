@@ -74,7 +74,7 @@ router.delete('/remove', [auth, newtoken], async (req, res) => {
 
 router.get('/requeststoteacher', [auth, admin, newtoken], async (req, res) => {
     let teacher_id = req.user._id
-    let req_to_teacher = await Member.find({teacher_id: teacher_id, status: false})
+    let req_to_teacher = await Member.find({teacher_id: teacher_id, status: false}).populate('student_id').populate('group_id')
     res.send(req_to_teacher)
 })
 

@@ -12,10 +12,10 @@ router.post('/', [auth, admin, newtoken], async (req, res) => {
     const teacher_id = req.user._id
     const { group_id, material_url } = req.body
 
-    const { error } = validate({teacher_id, group_id, material_url});
+    const { error } = validate({teacher_id, group_id, material_url})
     
     if(error)
-        return res.status(400).send(error.details[0].message);
+        return res.status(400).send(error.details[0].message)
 
     const group = await Group.findById(group_id)
         
