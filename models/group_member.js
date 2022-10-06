@@ -20,6 +20,10 @@ const MemberSchema = new mongoose.Schema({
   status: {
     type: Boolean,
     default: false
+  },
+  create_date: {
+    type: Date,
+    default: new Date()
   }
 });
 

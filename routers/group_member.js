@@ -23,8 +23,7 @@ router.post('/reqforteacher', [auth, newtoken], async (req, res) => {
         return res.status(400).send(error.details[0].message);
     
     try{
-        let isMember = await Member.find({group_id: req.body.group_id})
-        console.log(isMember)
+        let isMember = await Member.find({group_id: req.body.group_id, student_id: req.body.student_id})
         if(isMember.length===0){
             let member = new Member(_.pick(req.body, ['student_id', 'group_id', 'teacher_id']));
             let newmember = await member.save();
@@ -72,12 +71,6 @@ router.delete('/remove', [auth, newtoken], async (req, res) => {
 
 })
 
-router.get('/requeststoteacher', [auth, admin, newtoken], async (req, res) => {
-    let teacher_id = req.user._id
-    let req_to_teacher = await Member.find({teacher_id: teacher_id, status: false}).populate('student_id').populate('group_id')
-    res.send(req_to_teacher)
-})
-
 router.post('/resforstudent', [auth, admin, newtoken], async (req, res) => {
     
     if(req.body.req_id){
@@ -103,7 +96,7 @@ router.post('/resforstudent', [auth, admin, newtoken], async (req, res) => {
 })
 
 router.get('/readrequest', [auth, newtoken], async (req, res) => {
-    let group = await Member.findOne(_.pick(req.body, ['group_id'])).populate('student_id').populate('group_id')
+    let group = await Member.findOne({_id: req.query._id}).populate('student_id').populate('group_id')
     group.student_id.password = ""
     res.send(group)
 })

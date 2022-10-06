@@ -5,7 +5,6 @@ const router = express.Router();
 const _ = require('lodash');
 const Joi = require('joi');
 const auth = require('../middleware/auth');
-const newtoken = require('../middleware/newtoken');
 const { UserProfileInfo } = require('../models/user_profile_info')
 
 const loginValidator = user => {

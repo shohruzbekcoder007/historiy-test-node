@@ -7,22 +7,19 @@ module.exports = (io) => {
 
         socket.on("add-user", ({userId, status}) => {
             let obj = global.onlineUsers.find(user => user && user.userId === userId)
-            if(userId && !obj)
+            if(userId && !obj){
                 onlineUsers.push({userId: userId, sockedId: socket.id, status: status})
-
-            socket.on("send-request", (group) => {
-                onlineUsers.forEach(user =>{
-                    console.log(user)
-                    if(group.teacher_id == user.userId){
-                        onlineUsers.forEach(elem => {
-                            if(elem.userId == group.teacher_id)
-                                socket.to(elem.sockedId).emit('response-from-teacher',group)
-                        })
-                    }
-                })
-                console.log(group.teacher_id,"<---")
-            })
+                console.log(global.onlineUsers)
+            }
         });
+
+        socket.on("send-request", (group) => {
+            onlineUsers.forEach(user =>{
+                if(group.teacher_id == user.userId){
+                    socket.to(user.sockedId).emit('response-from-teacher',group);
+                }
+            })
+        })
 
         socket.on('disconnect',  () => {
             onlineUsers = onlineUsers.filter(elem => {

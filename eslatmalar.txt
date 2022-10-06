@@ -1,6 +1,8 @@
 configni sozlash na jwttokenni tugirlash
 xatoliklar qaytarish joyini optimal hammasi uchun bir xil qilinadi
 requist larni statusini ham tugirlash kerak
-index js ni modellarga bo'lib chiqish kerak
 
 arrayda kelgan javoblarni tugrilikka tekshiradigan joyiga kelib tuxtaganmiz
+
+
+bu kurga azolik bildirgansiz tugri ishlamayapti
