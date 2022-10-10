@@ -78,7 +78,7 @@ router.post('/resforstudent', [auth, admin, newtoken], async (req, res) => {
         let _id = req.body.req_id
         const { teacher_id, status } = await Member.findOne({_id: _id})
 
-        if(teacher_id === req.user._id && status === false){
+        if(teacher_id+"" === req.user._id && status === false){
 
             const member_req = await Member.findByIdAndUpdate(_id, {status: true})
             const group = await Group.findOne({_id: member_req.group_id})
