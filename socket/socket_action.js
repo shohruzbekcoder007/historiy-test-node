@@ -20,10 +20,10 @@ module.exports = (io) => {
             })
         })
 
-        socket.on("send-response", (group) => {
+        socket.on("send-response", (data) => {
             onlineUsers.forEach(user =>{
-                if(group.student_id == user.userId){
-                    socket.to(user.sockedId).emit('response-from-student',group);
+                if(data.student_id == user.userId){
+                    socket.to(user.sockedId).emit('response-from-student', data.group);
                 }
             })
         })

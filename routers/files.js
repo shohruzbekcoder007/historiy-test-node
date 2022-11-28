@@ -1,6 +1,7 @@
 const upload = require('../middleware/image_upload')
 const upload_file = require('../middleware/file_upload')
 const upload_video = require('../middleware/video_upload')
+const upload_audio = require('../middleware/audio_upload')
 const express = require('express')
 const router = express.Router()
 const auth = require('../middleware/auth')
@@ -10,16 +11,16 @@ const Grid = require('gridfs-stream')
 const newtoken = require('../middleware/newtoken')
 const { UserProfileInfo, validate } = require('../models/user_profile_info')
 
-let gfs;
+let gfs
 const conn = mongoose.connection
 
-let bucket;
+let bucket
 mongoose.connection.on("connected", () => {
   var db = mongoose.connections[0].db;
   bucket = new mongoose.mongo.GridFSBucket(db, {
     bucketName: "photos"
   });
-});
+})
 
 conn.once('open', () => {
     gfs = Grid(conn.db, mongoose.mongo)
@@ -35,7 +36,19 @@ router.post('/uploadfile', [auth, admin, upload_file.single('file'), newtoken], 
 
     return res.send(imageUrl)
     
-});
+})
+
+router.post('/uploadaudio', upload_audio.single('file'), async (req, res) => {
+
+    console.log(req.file)
+
+    if(req.file === undefined) return res.send("file tanlang")
+    
+    const imageUrl = `http://localhost:8080/v1/file/${req.file.filename}`
+
+    return res.send(imageUrl)
+    
+})
 
 router.post('/uploadvideo', [auth, admin, upload_video.single('file'), newtoken], async (req, res) => {
 
@@ -45,7 +58,7 @@ router.post('/uploadvideo', [auth, admin, upload_video.single('file'), newtoken]
 
     return res.send(imageUrl)
     
-});
+})
 
 router.post('/uploadimg', [auth, upload.single('file'), newtoken], async (req, res) => {
 
@@ -78,7 +91,7 @@ router.post('/uploadimg', [auth, upload.single('file'), newtoken], async (req, r
 
     return res.send(imageUrl)
     
-});
+})
 
 router.get('/:filename', async (req, res) => {
     const file = await gfs.files.findOne({filename: req.params.filename})
@@ -95,4 +108,4 @@ router.delete('/:filename', [auth, newtoken], async (req, res) => {
     }
 })
 
-module.exports = router;
+module.exports = router
