@@ -583,6 +583,94 @@
             
           }
         }
+      },
+      "/groupmember/groupstudents": {
+        "get": {
+          "tags": ["Group"],
+          "description": "Fequest from students to teacher",
+          "parameters": [
+            {
+              "name": "x-auth-token",
+              "in": "header",
+              "description": "an authorization header",
+              "type": "string"
+            },{
+              "name": "group_id",
+              "in": "query",
+              "description": "group_id",
+              "type": "string"
+            },{
+              "name": "status",
+              "in": "query",
+              "description": "status",
+              "type": "boolean"
+            }
+          ],
+          "responses": {
+            
+          }
+        }
+      },
+      "/grouplesson/": {
+        "post": {
+          "tags": ["Lesson"],
+          "description": "Add Lesson",
+          "parameters": [
+            {
+              "name": "x-auth-token",
+              "in": "header",
+              "description": "an authorization header",
+              "type": "string"
+            }
+          ],
+          "requestBody": {
+            "description": "req body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                    "required": ["group_id, title, description"],
+                    "properties": {
+                      "group_id": {
+                        "type": "string"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      }
+                    }
+                }
+              }
+            }
+          },
+          "responses": {
+            
+          }
+        }
+      },
+      "/grouplesson/lessons": {
+        "get": {
+          "tags": ["Lesson"],
+          "description": "Add Lesson",
+          "parameters": [
+            {
+              "name": "x-auth-token",
+              "in": "header",
+              "description": "an authorization header",
+              "type": "string"
+            },{
+              "name": "group_id",
+              "in": "query",
+              "description": "group_id",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            
+          }
+        }
       }
     },
     "components": {

@@ -13,7 +13,7 @@ const full_test = require('../routers/create_full_test')
 const files = require('../routers/files')
 const group = require('../routers/group')
 const group_member = require('../routers/group_member')
-const group_materials = require('../routers/group_materials')
+const group_lesson = require('../routers/group_lesson')
 const correct_answer = require('../routers/correct_answer')
 const errorMiddleware = require('../middleware/error')
 const options = require("../swagger.json")
@@ -38,7 +38,7 @@ module.exports = (app) => {
     app.use('/v1/file', files);
     app.use('/v1/group', group);
     app.use('/v1/groupmember', group_member);
-    app.use('/v1/groupmaterials', group_materials);
+    app.use('/v1/grouplesson', group_lesson);
     app.use(errorMiddleware);
     app.use(
         "/api-docs",

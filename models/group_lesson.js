@@ -1,7 +1,7 @@
 const Joi = require('joi');
 const mongoose = require('mongoose');
 
-const MaterialSchema = new mongoose.Schema({
+const LessonSchema = new mongoose.Schema({
   teacher_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "users",
@@ -12,23 +12,24 @@ const MaterialSchema = new mongoose.Schema({
     ref: "groups",
     required: true,
   },
-  material_url: {
-    type: String,
+  lesson_material_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "lessonmaterials",
     required: true,
   }
 });
 
-const Material = mongoose.model('materials', MaterialSchema);
+const Lesson = mongoose.model('lessons', LessonSchema);
 
-function validateMaterial(answer) {
+function validateLesson(lesson) {
   const schema = Joi.object({
     teacher_id: Joi.string().required(),
     group_id: Joi.string().required(),
-    material_url: Joi.string().required()
+    lesson_material_id: Joi.string().required()
   });
 
-  return schema.validate(answer);
+  return schema.validate(lesson);
 }
 
-exports.Material = Material;
-exports.validate = validateMaterial;
+exports.Lesson = Lesson;
+exports.validate = validateLesson;

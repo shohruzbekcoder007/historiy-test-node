@@ -101,4 +101,16 @@ router.get('/readrequest', [auth, newtoken], async (req, res) => {
     res.send(group)
 })
 
+router.get('/groupstudents', [auth, newtoken], async (req,res) => {
+    const group_id = req.query.group_id
+    const status = req.query.status
+    try{
+        let members = await Member.find({group_id: group_id, status: status}).populate({path: 'student_id', 
+        select: ['_id', 'name', 'email']});
+        return res.send(members)
+    }catch(err){
+        return res.status(404).send("Xatolik yuzaga keldi!!!");
+    }
+})
+
 module.exports = router;
