@@ -6,12 +6,13 @@ const auth = require('../middleware/auth')
 const admin = require('../middleware/admin')
 const newtoken = require('../middleware/newtoken')
 const { Group } = require('../models/group')
-const { LessonMaterial, validateLessonMaterial } = require('../models/lesson_material')
 
 router.post('/', [auth, admin, newtoken], async (req, res) => {
 
     const teacher_id = req.user._id
     const { group_id, title, description } = req.body
+
+
 
     const { error } = validate({teacher_id, group_id, title, description})
     
@@ -24,7 +25,7 @@ router.post('/', [auth, admin, newtoken], async (req, res) => {
 
         const lesson = new Lesson({teacher_id, group_id, title, description})
         const new_lesson = await lesson.save()
-        const update_group = await Group.findByIdAndUpdate(group._id, {number_of_maretials: group.number_of_maretials + 1})
+        const update_group = await Group.findByIdAndUpdate(group._id, {number_of_maretials: group.number_of_maretials + 1}, { "new": true })
 
         res.send({new_lesson, update_group})
     }else{
@@ -38,7 +39,22 @@ router.get('/lessons', [auth, admin, newtoken], async (req, res) => {
     const teacher_id = req.user._id
     const { group_id } = req.query
 
-    const lessons = await Lesson.find({teacher_id: teacher_id, group_id: group_id})
+    const lessons = await Lesson.find({
+        teacher_id: teacher_id, 
+        group_id: group_id
+    })
+
+    res.send(lessons)
+    
+});
+
+router.get('/lessonsforstudent', [auth, newtoken], async (req, res) => {
+
+    const { group_id } = req.query
+
+    const lessons = await Lesson.find({
+        group_id: group_id
+    })
 
     res.send(lessons)
     

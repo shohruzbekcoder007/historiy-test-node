@@ -65,19 +65,9 @@ router.get('/info', auth, async (req, res) => {
     let user = await User.findById(_id);
     if (!user)
         return res.status(400).send('Email yoki parol noto\'g\'ri');
-    
-    let profile_info = await UserProfileInfo.findOne({user_id: _id})
-
-    let profile = {}
-    
-    if(profile_info){
-        profile = _.pick(profile_info, ['image_url']) || {}
-    }
-
-    user.profile = profile;
 
     const token = user.generateAuthToken();
-    return res.header('x-auth-token', token).send(_.pick(user, ['_id', 'email', 'name', 'isAdmin', "image_url", "profile"]));
+    return res.header('x-auth-token', token).send(_.pick(user, ['_id', 'email', 'name', 'isAdmin', "profile_img", "profile"]));
 });
 
 router.put('/update', auth, async (req, res) => {

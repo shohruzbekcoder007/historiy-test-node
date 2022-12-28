@@ -12,9 +12,12 @@ const LessonSchema = new mongoose.Schema({
     ref: "groups",
     required: true,
   },
-  lesson_material_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "lessonmaterials",
+  title: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
     required: true,
   }
 });
@@ -25,7 +28,9 @@ function validateLesson(lesson) {
   const schema = Joi.object({
     teacher_id: Joi.string().required(),
     group_id: Joi.string().required(),
-    lesson_material_id: Joi.string().required()
+    title: Joi.string().required(),
+    description: Joi.string().required(),
+    lesson_material_id: Joi.string()
   });
 
   return schema.validate(lesson);

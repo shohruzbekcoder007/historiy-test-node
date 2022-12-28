@@ -6,9 +6,21 @@ const LessonMaterialSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  description: {
+  lesson_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "lessons",
+  },
+  sourse_test_id: {
     type: String,
-    required: true,
+    default: "",
+  },
+  sourse_post_id: {
+    type: String,
+    default: "",
+  },
+  sourse_file_id: {
+    type: String,
+    default: "",
   }
 });
 
@@ -16,8 +28,8 @@ const LessonMaterial = mongoose.model('lessonmaterials', LessonMaterialSchema);
 
 function validateLessonMaterial(material) {
   const schema = Joi.object({
-    title: Joi.string().required(),
-    description: Joi.string().required()
+    lesson_id: Joi.string().required(),
+    sourse: Joi.string().required()
   });
 
   return schema.validate(material);

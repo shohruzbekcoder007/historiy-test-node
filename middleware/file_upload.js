@@ -10,7 +10,7 @@ const storage = new GridFsStorage({
         useNewUrlParser:true
     },
     file: (req, file) => {
-        const match = ["application/pdf"]
+        const match = ["application/pdf", "application/doc", "application/docx"]
 
         if(match.indexOf(file.mimetype) === -1){
             const filename = `${Date.now()}-any-name-${file.originalname}`

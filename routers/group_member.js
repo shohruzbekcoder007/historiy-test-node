@@ -106,7 +106,7 @@ router.get('/groupstudents', [auth, newtoken], async (req,res) => {
     const status = req.query.status
     try{
         let members = await Member.find({group_id: group_id, status: status}).populate({path: 'student_id', 
-        select: ['_id', 'name', 'email']});
+        select: ['_id', 'name', 'email', 'profile_img']});
         return res.send(members)
     }catch(err){
         return res.status(404).send("Xatolik yuzaga keldi!!!");

@@ -15,6 +15,8 @@ const group = require('../routers/group')
 const group_member = require('../routers/group_member')
 const group_lesson = require('../routers/group_lesson')
 const correct_answer = require('../routers/correct_answer')
+const message_group = require('../routers/message_group')
+const lesson_material = require('../routers/lesson_material')
 const errorMiddleware = require('../middleware/error')
 const options = require("../swagger.json")
 const specs = swaggerJsdoc(options)
@@ -39,6 +41,8 @@ module.exports = (app) => {
     app.use('/v1/group', group);
     app.use('/v1/groupmember', group_member);
     app.use('/v1/grouplesson', group_lesson);
+    app.use('/v1/messagegroup', message_group);
+    app.use('/v1/lessonmaterial', lesson_material);
     app.use(errorMiddleware);
     app.use(
         "/api-docs",

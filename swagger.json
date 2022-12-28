@@ -671,6 +671,135 @@
             
           }
         }
+      },
+      "/grouplesson/lessonsforstudent": {
+        "get": {
+          "tags": ["Lesson"],
+          "description": "Add Lesson",
+          "parameters": [
+            {
+              "name": "x-auth-token",
+              "in": "header",
+              "description": "an authorization header",
+              "type": "string"
+            },{
+              "name": "group_id",
+              "in": "query",
+              "description": "group_id",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            
+          }
+        }
+      },
+      "/messagegroup": {
+        "post": {
+          "tags": ["GroupMessage"],
+          "description": "Create GroupMessage",
+          "parameters": [
+            {
+              "name": "x-auth-token",
+              "in": "header",
+              "description": "an authorization header",
+              "type": "string"
+            }
+          ],
+          "requestBody": {
+            "description": "Passed in parameters for: test",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupMessage"
+                }
+              }
+            }
+          },
+          "responses": {
+            
+          }
+        }
+      },
+      "/messagegroup/": {
+        "get": {
+          "tags": ["GroupMessage"],
+          "description": "Add Lesson",
+          "parameters": [
+            {
+              "name": "x-auth-token",
+              "in": "header",
+              "description": "an authorization header",
+              "type": "string"
+            },{
+              "name": "group_message_id",
+              "in": "query",
+              "description": "group_message_id",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            
+          }
+        }
+      },
+      "/messagegroup/lastmessages": {
+        "get": {
+          "tags": ["GroupMessage"],
+          "description": "Add Lesson",
+          "parameters": [
+            {
+              "name": "x-auth-token",
+              "in": "header",
+              "description": "an authorization header",
+              "type": "string"
+            },{
+              "name": "to_message",
+              "in": "query",
+              "description": "to_message",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            
+          }
+        }
+      },
+      "/lessonmaterial/": {
+        "post": {
+          "tags": ["Lesson Material"],
+          "description": "Add Material in Lesson",
+          "parameters": [
+            {
+              "name": "x-auth-token",
+              "in": "header",
+              "description": "an authorization header",
+              "type": "string"
+            }
+          ],
+          "requestBody": {
+            "description": "req body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                    "required": ["properties", "sourse"],
+                    "properties": {
+                      "lesson_id": {
+                        "type": "string"
+                      },
+                      "sourse": {
+                        "type": "string"
+                      }
+                    }
+                }
+              }
+            }
+          },
+          "responses": {
+            
+          }
+        }
       }
     },
     "components": {
@@ -786,6 +915,27 @@
           "properties": {
             "group_id": {
               "type": "string"
+            }
+          }
+        },
+        "GroupMessage": {
+          "type": "object",
+          "required": ["from_message", "to_message","context_message", "type_message", "create_date"],
+          "properties": {
+            "from_message": {
+              "type": "string"
+            },
+            "to_message": {
+              "type": "string"
+            },
+            "context_message": {
+              "type": "string"
+            },
+            "type_message": {
+              "type": "string"
+            },
+            "create_date": {
+              "type": "date"
             }
           }
         }
