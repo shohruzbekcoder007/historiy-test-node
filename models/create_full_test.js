@@ -20,8 +20,7 @@ function validateFullTest(fullTest) {
         test_answer4: {
             answer_text: Joi.string().min(3).required(),
             accuracy: Joi.boolean().required()
-        },
-        try_test_id: Joi.string().required(),
+        }
     });
 
     return schema.validate(fullTest);

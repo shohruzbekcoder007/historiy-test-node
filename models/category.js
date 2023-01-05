@@ -12,6 +12,11 @@ const categorySchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "users",
         required: true
+    },
+    group_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "groups",
+        required: true
     }
 });
 
@@ -19,6 +24,7 @@ function validateCategory(category) {
     const schema = Joi.object({
         name: Joi.string().min(1).required(),
         user_id: Joi.string().min(1).required(),
+        group_id: Joi.string().min(1).required(),
     });
   
     return schema.validate(category);

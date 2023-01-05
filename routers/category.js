@@ -15,16 +15,16 @@ router.post('/', [auth, admin, newtoken], async (req, res) => {
     if(error)
         return res.status(400).send(error.details[0].message);
         
-    let category = new Category(_.pick(req.body, ['name',"user_id"]));
+    let category = new Category(_.pick(req.body, ['name',"user_id","group_id"]));
     let newcategory = await category.save();
     
-    return res.status(201).send(_.pick(newcategory, ['_id', 'name']));
+    return res.status(201).send(_.pick(newcategory, ['_id', 'name', 'group_id']));
     
 });
 
 router.get('/mycategories', [auth, admin, newtoken], async (req, res) => {
     
-    let categories = await Category.find({user_id: req.user._id}).select("_id name");
+    let categories = await Category.find({user_id: req.user._id}).select("_id name group_id");
     return res.send(categories);
 
 });

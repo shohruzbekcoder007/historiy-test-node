@@ -26,10 +26,6 @@ const testSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "answers",
         required: true
-    },
-    try_test_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "try_tests",
     }
 });
 
@@ -42,7 +38,6 @@ function validateTest(question) {
     test_answer2: Joi.string().required(),
     test_answer3: Joi.string().required(),
     test_answer4: Joi.string().required(),
-    try_test_id: Joi.string().required(),
   });
 
   return schema.validate(question);
